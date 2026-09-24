@@ -1,0 +1,401 @@
+/* Netflix-inspired theme for Jellyfin Web.
+ * Compatibility and setup: see README.md.
+ * Paste this entire file into Dashboard > Branding > Custom CSS code.
+ * Use on its own; remove other theme imports first. No external assets.
+ * Native Jellyfin actions with a Netflix-like browse layout.
+ * Uses native artwork selection for all existing and future library items.
+ */
+
+:root {
+    --nfi-play-label: "Play";
+    --nfi-info-label: "More Info";
+    --nfi-red: #e50914;
+    --nfi-bg: #141414;
+    --nfi-panel: #222;
+    --nfi-text: #f5f5f1;
+    --nfi-muted: #b3b3b3;
+    --jf-palette-primary-main: #e50914 !important;
+    --jf-palette-primary-mainChannel: 229 9 20 !important;
+    --jf-palette-primary-dark: #b20710 !important;
+    --jf-palette-primary-light: #ff4650 !important;
+    --jf-palette-primary-contrastText: #fff !important;
+    --jf-palette-secondary-main: #ff4650 !important;
+    --jf-palette-secondary-mainChannel: 255 70 80 !important;
+    --jf-palette-secondary-contrastText: #fff !important;
+    --jf-palette-background-default: #141414 !important;
+    --jf-palette-background-defaultChannel: 20 20 20 !important;
+    --jf-palette-background-paper: #222 !important;
+    --jf-palette-background-paperChannel: 34 34 34 !important;
+    --jf-palette-text-primary: #f5f5f1 !important;
+    --jf-palette-text-secondary: #b3b3b3 !important;
+    --jf-palette-divider: rgba(255, 255, 255, .13) !important;
+    --jf-palette-AppBar-defaultBg: #141414 !important;
+    --jf-palette-AppBar-transparentBg: rgba(20, 20, 20, .96) !important;
+    --jf-palette-FilledInput-bg: #292929 !important;
+    --jf-palette-FilledInput-borderColor: #666 !important;
+    --jf-card-borderRadius: 6px !important;
+}
+
+/* Both the new React app bar and legacy Jellyfin navigation. */
+.MuiAppBar-root,
+.skinHeader-withBackground,
+.skinHeader.semiTransparent {
+    background: linear-gradient(180deg, #090909 0%, rgba(20, 20, 20, .98) 100%) !important;
+    color: var(--nfi-text) !important;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .04) !important;
+}
+
+.MuiAppBar-root .MuiButton-root {
+    text-transform: none;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+.MuiAppBar-root a.MuiButton-root[href="#/"] {
+    color: var(--nfi-red);
+    font-size: 1.55rem;
+    font-weight: 900;
+    letter-spacing: -.06em;
+    text-transform: uppercase;
+}
+
+.MuiAppBar-root .MuiAvatar-root { border-radius: 6px; }
+.MuiAppBar-root .MuiButton-root:hover { color: #fff; background: #ffffff0d; }
+.emby-tab-button { color: var(--nfi-muted); }
+.emby-tab-button-active { color: #fff !important; box-shadow: inset 0 -3px var(--nfi-red); }
+.mainDrawer { background: #181818 !important; }
+.navMenuOption-selected { background: #333 !important; border-inline-start: 3px solid var(--nfi-red); }
+
+/* A quieter canvas and stronger row headings. Keep native safe-area padding. */
+#homeTab { padding-top: 1rem; padding-bottom: 2rem; }
+.sectionTitle {
+    color: var(--nfi-text);
+    font-weight: 750;
+    font-size: clamp(1.15rem, 1.6vw, 1.6rem);
+    letter-spacing: -.025em;
+    line-height: 1.35;
+}
+.sectionTitleContainer { margin-bottom: .35rem; }
+#homeTab .verticalSection { margin-bottom: 1.6rem; }
+
+/* Preserve image ratios, row scrolling and all overlay actions. */
+.cardScalable,
+.cardImageContainer,
+.cardOverlayContainer { border-radius: var(--jf-card-borderRadius); }
+.cardScalable { background: #232323; }
+.cardBox { transition: filter 180ms ease; }
+.cardText { color: #e5e5e5; }
+.cardText-secondary { color: var(--nfi-muted); }
+.cardText-first { font-weight: 600; padding-top: .55em; }
+.cardOverlayContainer { background: linear-gradient(0deg, #000c, #0000 65%); }
+.cardOverlayFab-primary { background: #fff !important; color: #141414 !important; }
+.cardOverlayButton-br .cardOverlayButton { color: #fff; }
+.itemProgressBar { background: #ffffff40; height: 4px; }
+.itemProgressBarForeground { background: var(--nfi-red) !important; }
+.countIndicator,
+.playedIndicator { background: #292929 !important; color: #fff !important; box-shadow: 0 2px 8px #0008; }
+.defaultCardBackground,
+.defaultCardBackground1,
+.defaultCardBackground2,
+.defaultCardBackground3,
+.defaultCardBackground4,
+.defaultCardBackground5 { background-color: #292929 !important; }
+
+@media (hover: hover) and (pointer: fine) {
+    .card:hover .cardBox { filter: brightness(1.08); }
+    .card:hover .cardScalable { box-shadow: 0 0 0 2px #ffffff80, 0 8px 24px #0008; }
+    .card:focus-within .cardOverlayContainer { opacity: 1; }
+}
+
+/* Detail pages retain their native backdrop and responsive structure. */
+.detailPagePrimaryContainer { background: linear-gradient(0deg, #141414, #141414e8 70%, #141414aa); }
+.detailPageSecondaryContainer { background: var(--nfi-bg); }
+.detailRibbon { background: rgba(20, 20, 20, .88) !important; }
+.itemName { color: #fff; font-weight: 800; letter-spacing: -.035em; }
+.detailSectionContent { line-height: 1.65; }
+.mediaInfoText { border-color: #777; border-radius: 3px; }
+.mainDetailButtons .btnPlay {
+    background: #fff !important;
+    color: #141414 !important;
+    border-radius: 5px;
+    font-weight: 700;
+}
+.mainDetailButtons .btnPlay:hover { background: #ddd !important; }
+
+/* Forms: red primary actions, readable links and visible keyboard focus. */
+.button-submit,
+.MuiButton-containedPrimary { background: var(--nfi-red) !important; color: #fff !important; border-radius: 5px; }
+.button-submit:hover,
+.MuiButton-containedPrimary:hover { background: #b20710 !important; }
+.button-link { color: #ff6971; }
+.emby-input,
+.emby-textarea,
+.emby-select-withcolor { border-radius: 5px; }
+.inputLabelFocused,
+.selectLabelFocused { color: #ff6971 !important; }
+.emby-button:focus-visible,
+.paper-icon-button-light:focus-visible,
+.emby-tab-button:focus-visible,
+.MuiButtonBase-root:focus-visible,
+.MuiButtonBase-root.Mui-focusVisible,
+.card:focus-visible,
+.cardImageContainer:focus-visible,
+.textActionButton:focus-visible {
+    outline: 3px solid #fff !important;
+    outline-offset: 3px;
+}
+.emby-input:focus,
+.emby-textarea:focus,
+.emby-select:focus { border-color: #ff6971 !important; }
+.dialog,
+.MuiDialog-paper,
+.MuiMenu-paper { background-color: #222; color: var(--nfi-text); }
+
+/* Compact sign-in form, with Quick Connect and recovery still available. */
+#loginPage .readOnlyContent,
+#loginPage form { max-width: 28rem; margin-inline: auto; }
+#loginPage .padded-left.padded-right { max-width: 32rem; margin-inline: auto; box-sizing: border-box; }
+#loginPage h1 { font-weight: 750; color: #fff; }
+
+@media (max-width: 600px) {
+    #homeTab { padding-top: .4rem; }
+    #homeTab .verticalSection { margin-bottom: 1.1rem; }
+    .sectionTitle { font-size: 1.18rem; }
+    .cardText { font-size: .88rem; }
+    .MuiAppBar-root a.MuiButton-root[href="#/"] { font-size: 1.25rem; }
+    .detailSectionContent { line-height: 1.5; }
+    /* Web 12 can retain layout-desktop in a narrow browser window. */
+    .layout-desktop .detailPagePrimaryContainer > .detailImageContainer { display: none; }
+    .layout-desktop .detailRibbon {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1rem 4% !important;
+    }
+    .layout-desktop .detailRibbon .infoWrapper { width: 100%; min-width: 0; }
+    .layout-desktop .detailPagePrimaryContent { padding: 1rem 4% !important; }
+    .layout-desktop .mainDetailButtons { flex-wrap: wrap; justify-content: flex-start; margin-top: .8rem; }
+    .layout-desktop .trackSelections { max-width: 100%; }
+    .layout-desktop .trackSelectionFieldContainer { min-width: 0; max-width: 100%; }
+}
+
+/* Honor reduced motion. TV remote navigation has not been validated. */
+@media (prefers-reduced-motion: reduce) {
+    .cardBox,
+    .cardScalable,
+    .cardOverlayContainer { transition: none !important; animation: none !important; }
+}
+/* End base theme. */
+
+/* V2: Netflix browse layout, implemented entirely through Custom CSS.
+ * Optional hero: put Continue Watching first in your Home settings.
+ * Other sections may use any order. No user preferences are changed by CSS.
+ */
+:root { --nfi-gutter: 3.6vw; --nfi-card-gap: 8px; }
+body.libraryDocument { background: #141414; }
+#homeTab { background: radial-gradient(ellipse 80% 540px at 50% 0, #422723 0, #211817 50%, #141414 100%); padding-top: 1.4rem; }
+.MuiAppBar-root { background: linear-gradient(#100d0df5, #141414ec) !important; box-shadow: none !important; }
+.MuiAppBar-root .MuiButton-root { border-radius: 30px; padding: 10px 16px; font-size: .95rem; }
+.MuiAppBar-root .MuiButton-root:not([href="#/"]) .MuiButton-startIcon { display: none; }
+.MuiAppBar-root a.MuiButton-root[href="#/"] { letter-spacing: -.06em; font-size: 1.7rem; padding-left: 0; }
+.MuiAppBar-root a.MuiButton-root[href="#/"] .MuiButton-startIcon { display: none; }
+.MuiAppBar-root .MuiButton-root:hover { background: #ffffff20; }
+body:has(#homeTab:not(.hide)) .MuiAppBar-root a.MuiButton-root[href="#/"] { background: #ffffff12; padding-inline: 18px; }
+#homeTab .sectionTitle { font-family: Arial, Helvetica, sans-serif; font-size: clamp(1.2rem, 1.8vw, 1.65rem); letter-spacing: -.015em; font-weight: 700; }
+#homeTab .verticalSection { margin-bottom: 1rem; }
+#homeTab .sectionTitleContainer { margin: 0 0 .4rem; }
+#homeTab .emby-scroller { padding-block: 12px 22px; }
+#homeTab .itemsContainer > .card > .cardBox { margin-inline: 0 var(--nfi-card-gap) !important; }
+
+/* Keep native portrait, backdrop and square aspect ratios and artwork selection.
+ * Never force a poster into a landscape frame or bind artwork to item IDs. */
+#homeTab .card:is(.overflowPortraitCard,.overflowBackdropCard,.overflowSquareCard) { width: 20%; }
+#homeTab .cardScalable,
+#homeTab .cardImageContainer,
+#homeTab .cardOverlayContainer { border-radius: 9px; }
+#homeTab .cardBox { position: relative; padding-bottom: 0; transition: transform 220ms ease, box-shadow 220ms ease; }
+#homeTab .cardImageContainer { background-size: contain; background-repeat: no-repeat; background-position: center; background-color: #242424; }
+#homeTab .cardText { text-align: start; padding-inline: 5px; }
+#homeTab .cardText-first { font-size: .86rem; padding-top: .5rem; }
+#homeTab .cardText-secondary { font-size: .75rem; }
+#homeTab .cardOverlayContainer { transition: opacity 160ms ease; }
+#homeTab .cardOverlayFab-primary { width: 42px; height: 42px; font-size: 1rem; }
+#homeTab .cardOverlayButton-br { gap: 3px; padding: 5px; }
+#homeTab .cardOverlayButton-br .cardOverlayButton { background: #242424dc; border: 1px solid #aaa; border-radius: 50%; }
+#homeTab .emby-scrollbuttons-button { background: #141414c9; border-radius: 50%; }
+#homeTab .emby-scrollbuttons-button:disabled { opacity: .25; }
+
+/* The native resume carousel becomes the hero only when it contains videos.
+ * :has guards against styling a different user's first home section as a hero.
+ */
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) { margin-bottom: 1.2rem; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) > .sectionTitle { font-size: .78rem; text-transform: uppercase; letter-spacing: .18em; color: #ddd; margin-block: 0 .3rem; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .card { width: 100% !important; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .emby-scroller { padding-block: 8px 16px; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardBox { margin-right: 18px !important; border-radius: 22px; overflow: hidden; box-shadow: 0 18px 45px #0005; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardPadder { padding: 0 !important; height: clamp(350px, 42vw, 650px); }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardImageContainer { background-size: cover; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardImageContainer::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #0008, #0000 80%), linear-gradient(0deg, #000d, #0000 80%); pointer-events: none; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayContainer { opacity: 1; background: none; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first { position: absolute; left: 3%; bottom: 130px; z-index: 3; padding: 0; max-width: 75%; overflow: visible; white-space: normal; text-shadow: 0 2px 20px #0007; font-size: clamp(2rem, 4vw, 4rem); line-height: 1.06; font-weight: 800; letter-spacing: -.04em; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first .textActionButton { overflow: visible; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first .textActionButton::after { content: var(--nfi-info-label); position: absolute; left: 130px; top: calc(100% + 44px); width: 125px; height: 46px; display: grid; place-items: center; border-radius: 30px; background: #6d6d6eaa; color: #fff; font-size: 1rem; line-height: 1; letter-spacing: 0; font-weight: 650; text-shadow: none; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-secondary { position: absolute; z-index: 2; left: 3%; bottom: 96px; padding: 0; color: #e5e5e5; font-size: 1rem; text-shadow: 0 1px 4px #000; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayFab-primary { position: absolute; left: 3%; top: auto; bottom: 40px; transform: none !important; width: 115px; height: 46px; display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 30px; padding: 8px 16px; margin: 0; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayFab-primary::after { content: var(--nfi-play-label); font: 700 1rem Arial, sans-serif; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayButton-br { right: 3%; bottom: 40px; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .innerCardFooter { z-index: 4; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .itemProgressBar { height: 3px; }
+
+@media (hover:hover) and (pointer:fine) {
+    #homeTab .verticalSection:not(.section0) .card:hover,
+    #homeTab .verticalSection:not(.section0) .card:focus-within { z-index: 5; }
+    #homeTab .verticalSection:not(.section0) .card:hover .cardBox,
+    #homeTab .verticalSection:not(.section0) .card:focus-within .cardBox { transform: scale(1.06); background: #242424; border-radius: 9px; box-shadow: 0 10px 25px #000a; filter: none; }
+    #homeTab .verticalSection:not(.section0) .card:first-child .cardBox { transform-origin: left center; }
+    #homeTab .card:hover .cardScalable { box-shadow: none; }
+    #homeTab .section0 .card:hover .cardBox { filter: none; }
+    #homeTab .card:focus-within .cardOverlayContainer { opacity: 1; }
+}
+
+/* Cinematic detail view. It is still a native page, with all original actions. */
+.layout-desktop .itemDetailPage { max-width: 1100px; margin-inline: auto; background: #181818; box-shadow: 0 15px 80px #0008; }
+.layout-desktop .detailPagePrimaryContainer > .detailImageContainer { display: none; }
+.layout-desktop .detailRibbon { padding: 1.5rem 4% !important; flex-direction: column; align-items: stretch; background: linear-gradient(#181818ee,#181818) !important; }
+.layout-desktop .detailRibbon .infoWrapper { width: 100%; min-width: 0; }
+.layout-desktop .detailRibbon .itemName { font-size: clamp(1.8rem, 3vw, 3rem); }
+.layout-desktop .mainDetailButtons { margin-top: 1.1rem; justify-content: flex-start; gap: .5rem; flex-wrap: wrap; }
+.layout-desktop .mainDetailButtons .detailButton { border-radius: 50%; }
+.layout-desktop .mainDetailButtons .btnPlay { border-radius: 6px; padding-inline: 1.25rem; }
+.layout-desktop .detailPagePrimaryContent { padding: 1.2rem 4% !important; }
+.layout-desktop .detailPageSecondaryContainer { padding-inline: 4% !important; background: #181818; }
+.layout-desktop .detailSectionContent { font-size: 1rem; line-height: 1.65; color: #ddd; }
+
+@media (min-width: 1600px) {
+    #homeTab .card:is(.overflowPortraitCard,.overflowBackdropCard,.overflowSquareCard) { width: 16.6667%; }
+}
+@media (max-width: 1000px) {
+    #homeTab .card:is(.overflowPortraitCard,.overflowBackdropCard,.overflowSquareCard) { width: 25%; }
+    .MuiAppBar-root .MuiButton-root { padding-inline: 10px; font-size: .85rem; }
+}
+@media (max-width: 600px) {
+    #homeTab .card:is(.overflowPortraitCard,.overflowBackdropCard,.overflowSquareCard) { width: 47%; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardPadder { height: 390px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardBox { border-radius: 16px; margin-right: 9px !important; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first { left: 6%; bottom: 145px; max-width: 88%; font-size: 2rem; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-secondary { left: 6%; bottom: 116px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first .textActionButton::after { top: calc(100% + 42px); left: 116px; width: 112px; height: 42px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayFab-primary { left: 6%; bottom: 61px; width: 105px; height: 42px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayButton-br { bottom: 8px; right: 5%; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayButton-br .cardOverlayButton { font-size: .8rem; }
+    .layout-desktop .itemDetailPage { box-shadow: none; }
+}
+@media (prefers-reduced-motion:reduce) {
+    #homeTab .card .cardBox { transition: none !important; transform: none !important; }
+}
+
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayButton { opacity: 1 !important; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) > .sectionTitle { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) > .emby-scrollbuttons { position: absolute; top: 44%; left: 4%; right: 4%; width: auto; padding: 0; z-index: 8; display: flex; justify-content: space-between; pointer-events: none; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) > .emby-scrollbuttons button { pointer-events: auto; opacity: .85; }
+#homeTab .section0:has(.overflowBackdropCard[data-positionticks]) > .emby-scrollbuttons button:disabled { visibility: hidden; }
+
+.layout-desktop .itemDetailPage { background: transparent; }
+.layout-desktop .detailPagePrimaryContainer { background: #181818; }
+/* Match the native React movie/show grids to the home cards. */
+:is(#moviesPage,#tvshowsPage) .cardScalable { border-radius: 9px; overflow: hidden; }
+:is(#moviesPage,#tvshowsPage) .cardText { text-align: start; }
+:is(#moviesPage,#tvshowsPage) .MuiLinearProgress-bar { background-color: #e50914 !important; }
+:is(#moviesPage,#tvshowsPage) .cardBox { transition: transform 180ms ease, box-shadow 180ms ease; }
+:is(#moviesPage,#tvshowsPage) .card:focus-within .cardOverlayContainer { opacity: 1; }
+@media(hover:hover) and (pointer:fine) {
+    :is(#moviesPage,#tvshowsPage) .card:hover .cardBox { transform: translateY(-4px); box-shadow: 0 12px 28px #0005; }
+}
+@media(prefers-reduced-motion:reduce) {
+    :is(#moviesPage,#tvshowsPage) .card .cardBox { transition: none !important; transform: none !important; }
+}
+
+/* V3 — Phone layout: both React/Auto and the native layout-mobile markup.
+ * Mobile renders Play directly inside cardScalable, without an overlay div.
+ */
+@media (max-width: 767px) {
+    #homeTab { padding-top: 8px; padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+    #homeTab .sectionTitle { font-size: 1.05rem; line-height: 1.35; }
+    #homeTab .verticalSection { margin-bottom: 8px; }
+    #homeTab .sectionTitleContainer { margin-block: 0 2px; }
+    #homeTab .emby-scroller { padding-block: 8px 12px !important; }
+    #homeTab .cardBox-bottompadded { margin-bottom: 4px; }
+    #homeTab .card:is(.overflowPortraitCard,.overflowBackdropCard,.overflowSquareCard) { width: 46%; }
+    #homeTab .cardText-first { padding-top: 6px; font-size: .85rem; line-height: 1.25; }
+    #homeTab .cardText-secondary { font-size: .75rem; padding-top: 2px; }
+    #homeTab .cardBox { transform: none !important; filter: none !important; }
+
+    /* Header keeps Menu, Cast, Search and Profile inside a narrow screen. */
+    .layout-mobile .headerTop { min-width: 0; padding-inline: max(6px, env(safe-area-inset-left)) max(6px, env(safe-area-inset-right)); }
+    .layout-mobile .headerLeft { flex: 1 1 auto; min-width: 0; overflow: hidden; }
+    .layout-mobile .headerRight { flex: 0 0 auto; margin-inline-start: auto; }
+    .layout-mobile .headerTop .headerButton { width: 40px; height: 44px; min-width: 40px; padding: 8px; margin: 0; box-sizing: border-box; }
+    .layout-mobile .headerUserButton > div { width: 28px !important; height: 28px !important; min-width: 28px !important; padding: 0 !important; border-radius: 6px; }
+    .layout-mobile .pageTitleWithLogo { flex: 1 1 70px; min-width: 0; max-width: 90px; margin-inline: 4px; background-size: contain; }
+    .layout-mobile .headerTabs { padding-block: 0 4px; }
+    .layout-mobile .emby-tab-button { min-height: 44px; padding: 10px 18px; border-radius: 24px; }
+    .layout-mobile .emby-tab-button-active { background: #ffffff18; box-shadow: none; }
+    .MuiAppBar-root .MuiToolbar-root { padding-inline: 8px; min-height: 52px; }
+    .MuiAppBar-root .MuiIconButton-root { min-width: 44px; min-height: 44px; padding: 8px; }
+
+    /* Taller artwork and stacked, full-width actions like Netflix phone web. */
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) { margin-bottom: 10px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardPadder { height: clamp(390px, 58svh, 500px) !important; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardBox { border-radius: 16px; margin-right: 12px !important; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardImageContainer::after { background: linear-gradient(0deg, #090909 0%, #090909e8 28%, #0003 65%, #0000 100%); }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first { left: 20px; right: 20px; bottom: 210px; width: auto; max-width: none; font-size: clamp(1.6rem, 7vw, 2.2rem); line-height: 1.12; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first .textActionButton { width: 100% !important; height: auto; max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first .textActionButton::after { top: auto; bottom: -162px; left: 0; width: 100%; height: 48px; border-radius: 24px; font-size: 1rem; background: #414141; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-secondary { left: 20px; right: 20px; bottom: 177px; font-size: .9rem; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) :is(.cardOverlayFab-primary,button.cardOverlayButton-br) { position: absolute; top: auto; bottom: 106px; left: 20px; right: 20px; width: calc(100% - 40px); height: 48px; min-height: 48px; margin: 0; padding: 8px 16px; display: flex; align-items: center; justify-content: center; gap: 8px; border-radius: 24px; background: #fff !important; color: #141414 !important; opacity: 1 !important; transform: none !important; z-index: 4; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) button.cardOverlayButton-br::after { content: var(--nfi-play-label); font: 700 1rem Arial, sans-serif; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) div.cardOverlayButton-br { left: auto; right: 12px; top: 12px; bottom: auto; padding: 0; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) div.cardOverlayButton-br .cardOverlayButton { width: 44px; height: 44px; min-width: 44px; padding: 8px; font-size: 1rem; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayButtonIcon { font-size: 24px; }
+    .layout-mobile #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .scrollX { scroll-snap-type: x mandatory; scroll-padding-inline: 3.3%; }
+    .layout-mobile #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .card { scroll-snap-align: start; }
+
+    /* Both detail implementations must reflow, not just layout-desktop. */
+    .itemDetailPage { width: 100%; max-width: 100%; margin-inline: 0; box-sizing: border-box; }
+    .detailRibbon { flex-direction: column; align-items: stretch; padding: 16px !important; }
+    .detailRibbon .infoWrapper { width: 100%; min-width: 0; }
+    .detailPagePrimaryContent { padding: 12px 16px !important; }
+    .mainDetailButtons { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-start; }
+    .mainDetailButtons .detailButton { min-height: 44px; min-width: 44px; }
+    .mainDetailButtons .btnPlay { min-height: 48px; padding-inline: 20px; }
+    .trackSelections { max-width: 100%; }
+    .trackSelectionFieldContainer { min-width: 0; max-width: 100%; }
+    .trackSelections .emby-select { min-height: 44px; max-width: 100%; }
+    .detailSectionContent { overflow-wrap: anywhere; }
+}
+@media (max-width: 360px) {
+    .layout-mobile .pageTitleWithLogo { max-width: 62px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-first { left: 16px; right: 16px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText-secondary { left: 16px; right: 16px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) :is(.cardOverlayFab-primary,button.cardOverlayButton-br) { left: 16px; right: 16px; width: calc(100% - 32px); }
+}
+@media (max-width: 767px) {
+    #homeTab .itemsContainer > .card > .cardBox { margin-top: 0 !important; margin-bottom: 4px !important; }
+    #homeTab .sectionTitle { margin-block: 8px 10px; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardText { text-align: start !important; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayButtonIcon { background: transparent; color: #141414; padding: 0; border-radius: 0; }
+}
+@media (max-width: 767px) {
+    .itemDetailPage .detailRibbon .infoWrapper { box-sizing: border-box; width: 100%; max-width: 100%; padding: 0 !important; margin: 0 !important; }
+    .itemDetailPage .infoWrapper > .detailImageContainer { display: none; }
+    .itemDetailPage .nameContainer { display: block; width: 100%; min-width: 0; margin: 0; padding: 0; text-align: start; }
+    .itemDetailPage :is(.itemName,.parentName) { max-width: 100%; white-space: normal; overflow-wrap: anywhere; text-align: start; margin-inline: 0; }
+    .itemDetailPage .itemMiscInfo { justify-content: flex-start; flex-wrap: wrap; text-align: start; }
+    .itemDetailPage .mainDetailButtons .btnPlay { flex-basis: 100%; border-radius: 6px; }
+}
+@media (max-width: 767px) {
+    #homeTab .sectionTitleContainer { padding-top: 0 !important; }
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) .cardOverlayButtonIcon { background: transparent !important; color: #141414 !important; }
+}
+@media (max-width: 767px) {
+    #homeTab .section0:has(.overflowBackdropCard[data-positionticks]) div.cardOverlayButton-br .cardOverlayButtonIcon { color: #fff !important; }
+}
